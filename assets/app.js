@@ -49,7 +49,7 @@ function render(){
   var R=range(), c=agg(funRows(R.a,R.b)), p=agg(funRows(R.pa,R.pb));
   // phrase
   var byC={};CANAUX.forEach(function(k){byC[k]=agg(funRows(R.a,R.b,{can:1}).filter(function(r){return r[1]===k}))});
-  var best=CANAUX.filter(function(k){return k!=='Foires'&&byC[k].t>2000&&byC[k].ca>0}).sort(function(x,y){return div(byC[y].ca,byC[y].t)-div(byC[x].ca,byC[x].t)})[0];
+  var best=CANAUX.filter(function(k){return k!=='Foires'&&byC[k].t>=10000&&byC[k].ca>0}).sort(function(x,y){return div(byC[y].ca,byC[y].t)-div(byC[x].ca,byC[x].t)})[0];
   var ph;
   if(!c.t&&!c.d){ph='Aucune activité ne correspond à ces filtres '+R.lab+'.'}
   else{
@@ -111,10 +111,12 @@ function renderObj(R){
   steps.forEach(function(s){var d=div(s[2]-s[3],s[3]);if(d<-.12)A.push({k:'bad',w:-d,t:'Le passage des '+s[0]+' aux '+s[1]+' décroche : <b>'+pct(s[2],0)+'</b> contre '+pct(s[3],0)+' '+R.cmp.replace('vs ','sur les ').replace('sur les même','sur la même')+'.',r:s[4]})});
   if(g.gp<O.ouverture_gp*.9) A.push({k:'bad',w:1-g.gp/O.ouverture_gp,t:'La lettre grand public n’est plus ouverte que par <b>'+pct(g.gp,0)+'</b> des destinataires (objectif '+pct(O.ouverture_gp,0)+'), et les désinscriptions montent à '+pct(g.gpu,2)+' par envoi.',r:'Raccourcir la lettre grand public, mettre une œuvre dans l’objet et retirer les adresses inactives depuis six mois.'});
   if(g.eng<O.engagement*.9) A.push({k:'warn',w:.1,t:'L’engagement Instagram tombe à <b>'+pct(g.eng)+'</b> par publication (objectif '+pct(O.engagement)+').',r:'Publier davantage d’artistes en atelier et de Reels, les formats qui font réagir.'});
+  if(G[4].k==='bad'||G[3].k==='bad') A.push({k:'bad',w:1-Math.min(G[4].r,G[3].r),t:'Les ventes issues de la communication sont sous l’objectif : <b>'+eur(g.ca)+'</b> par semaine pour '+eur(O.ca)+', '+(G[4].p?dl(g.ca,q.ca)+' '+R.cmp:'')+'.',r:'Reprendre une à une les options ouvertes et les rendez-vous sans suite des quatre dernières semaines.'});
+  if(G[0].k==='bad') A.push({k:'warn',w:1-G[0].r,t:'L’audience recule : <b>'+compact(g.t)+'</b> personnes touchées par semaine pour un objectif de '+compact(O.touches)+'.',r:'Programmer un Reel par semaine sur l’exposition en cours, c’est le format qui touche le plus.'});
   if(g.d<O.demandes*.85&&!A.length) A.push({k:'bad',w:.1,t:'Les demandes de dossier sont sous l’objectif : <b>'+nf(g.d,1)+'</b> par semaine pour '+nf(O.demandes)+'.',r:'Relancer les collectionneurs de la lettre avec les œuvres disponibles de l’exposition en cours.'});
   A.sort(function(x,y){return (x.k==='bad'?0:1)-(y.k==='bad'?0:1)||y.w-x.w});A=A.slice(0,3);
   // point fort
-  var bc=CANAUX.filter(function(k){return k!=='Foires'}).map(function(k){var x=agg(D.fun.filter(function(r){return r[0]>=R.a&&r[0]<=R.b&&r[1]===k}));return {k:k,v:div(x.ca,x.t)*1000,ca:x.ca}}).filter(function(x){return x.ca>0}).sort(function(x,y){return y.v-x.v})[0];
+  var bc=CANAUX.filter(function(k){return k!=='Foires'}).map(function(k){var x=agg(D.fun.filter(function(r){return r[0]>=R.a&&r[0]<=R.b&&r[1]===k}));return {k:k,v:div(x.ca,x.t)*1000,ca:x.ca,t:x.t}}).filter(function(x){return x.ca>0&&x.t>=10000}).sort(function(x,y){return y.v-x.v})[0];
   if(bc) A.push({k:'ok',t:'Point fort : '+NOMF[bc.k].replace(/^L/,'l')+' '+(bc.k==='Foires'?'rapportent':'rapporte')+' <b>'+eur(bc.v)+'</b> de ventes pour 1\u00a0000 personnes touchées.',r:bc.k==='Lettre'?'Garder un envoi tous les quinze jours au segment collectionneurs, c’est lui qui fait les ventes.':'Renforcer ce canal à la prochaine exposition.'});
   $('alerts').innerHTML='<h3>Ce qu’il faut regarder cette semaine</h3>'+A.map(function(x){return '<div class="al '+x.k+'"><i></i><p>'+x.t+'<span>'+x.r+'</span></p></div>'}).join('');
 }
@@ -301,6 +303,6 @@ function bind(){
   $('arrete').textContent=D.arrete;
 }
 Chart.defaults.font.family='Inter';
-fetch('data/donnees.json?v=20261117a').then(function(r){return r.json()}).then(function(j){D=j;NW=D.semaines.length;bind();render()})
+fetch('data/donnees.json?v=20261117b').then(function(r){return r.json()}).then(function(j){D=j;NW=D.semaines.length;bind();render()})
  .catch(function(e){$('phrase').textContent='Les données n’ont pas pu être chargées. Recharger la page.';console.error(e)});
 })();
