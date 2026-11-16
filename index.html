@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Galerie Cécile Fakhoury · Performance</title>
+<link rel="icon" href="data:,">
+<link rel="preload" href="assets/Cormorant.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/Inter.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="assets/style.css?v=20261117a">
+</head>
+<body>
+<div class="demo"><div class="wrap">Données de démonstration, à l’exception des artistes, des expositions et de l’audience Instagram</div></div>
+<header class="masthead">
+  <div class="wrap mh">
+    <img src="assets/logo.png" alt="Cécile Fakhoury" class="logo">
+    <div class="mh-right">
+      <p class="eyebrow">Performance de la communication</p>
+      <p class="arrete">Semaine arrêtée au <span id="arrete"></span></p>
+    </div>
+  </div>
+</header>
+
+<div class="filters" id="filters">
+  <div class="wrap fl">
+    <label>Période
+      <select id="f-per">
+        <option value="4">4 dernières semaines</option>
+        <option value="12" selected>12 dernières semaines</option>
+        <option value="52">52 dernières semaines</option>
+        <option value="ytd">2026, depuis janvier</option>
+      </select>
+    </label>
+    <label>Canal
+      <select id="f-can">
+        <option value="all">Tous les canaux</option>
+        <option>Instagram</option><option value="Lettre">Lettre d’information</option><option>Site</option><option>Visite en ligne</option><option>Presse</option><option>Foires</option>
+      </select>
+    </label>
+    <label>Exposition
+      <select id="f-exp"><option value="all">Toutes</option></select>
+    </label>
+    <label>Artiste
+      <select id="f-art"><option value="all">Tous les artistes</option></select>
+    </label>
+    <button id="raz" class="raz">Réinitialiser</button>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="intro">
+    <h1>De l’audience à la vente</h1>
+    <p id="phrase" class="lede"></p>
+  </section>
+
+  <section class="kpis" id="kpis"></section>
+
+  <section class="block" id="s-obj">
+    <div class="bh"><span class="num">01</span><h2>Objectifs et alertes</h2><p class="hint">Moyenne par semaine sur la période, comparée à l’objectif hebdomadaire.</p></div>
+    <div class="gauges" id="gauges"></div>
+    <div class="alerts" id="alerts"></div>
+  </section>
+
+  <section class="block" id="s-fun">
+    <div class="bh"><span class="num">02</span><h2>L’entonnoir, canal par canal</h2></div>
+    <div class="funnel" id="funnel"></div>
+    <div class="tbl-wrap"><table class="tbl" id="t-canaux"></table></div>
+    <div class="chart-box mt"><p class="cap">Demandes de dossier et ventes, semaine par semaine</p><div class="ch"><canvas id="c-fun"></canvas></div></div>
+  </section>
+
+  <section class="block chan" data-chan="Instagram" id="s-ig">
+    <div class="bh"><span class="num">03</span><h2>Instagram</h2></div>
+    <div class="grid2">
+      <div class="insta-big">
+        <p class="big" id="ig-ab"></p>
+        <p class="lbl">abonnés <span class="tag">Réel</span> relevé public du <span id="ig-rel"></span></p>
+        <div class="ig-mini" id="ig-mini"></div>
+      </div>
+      <div class="chart-box"><p class="cap">Nouveaux abonnés, semaine par semaine</p><div class="ch"><canvas id="c-ig"></canvas></div></div>
+    </div>
+    <div class="formats" id="formats"></div>
+    <p class="sub">Meilleures publications de la période</p>
+    <div class="tbl-wrap"><table class="tbl" id="t-posts"></table></div>
+  </section>
+
+  <section class="block chan" data-chan="Lettre" id="s-nl">
+    <div class="bh"><span class="num">04</span><h2>Lettre d’information</h2></div>
+    <div class="tbl-wrap"><table class="tbl" id="t-nl"></table></div>
+    <div class="chart-box mt"><p class="cap">Taux d’ouverture par segment, envoi par envoi</p><div class="ch"><canvas id="c-nl"></canvas></div></div>
+  </section>
+
+  <section class="block chan" data-chan="Site" id="s-web">
+    <div class="bh"><span class="num">05</span><h2>Site et visite en ligne</h2></div>
+    <div class="minis" id="web-k"></div>
+    <div class="grid2 mt">
+      <div><p class="sub nomt">Visiteurs par pays</p><div class="pays" id="pays"></div></div>
+      <div class="chart-box"><p class="cap">Visiteurs du site, semaine par semaine</p><div class="ch"><canvas id="c-web"></canvas></div></div>
+    </div>
+  </section>
+
+  <section class="block chan" data-chan="Presse" id="s-pr">
+    <div class="bh"><span class="num">06</span><h2>Retombées presse et foires</h2></div>
+    <div class="minis" id="pr-k"></div>
+    <div class="tbl-wrap mt"><table class="tbl" id="t-presse"></table></div>
+    <p class="sub">Foires : ce que deviennent les contacts pris sur le stand</p>
+    <div class="tbl-wrap"><table class="tbl" id="t-foires"></table></div>
+  </section>
+
+  <section class="block" id="s-exp">
+    <div class="bh"><span class="num">07</span><h2>Par exposition</h2><p class="hint">Toutes périodes confondues, depuis novembre 2024.</p></div>
+    <div class="expo-now" id="expo-now"></div>
+    <div class="tbl-wrap"><table class="tbl" id="t-expos"></table></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><strong>Données fictives de démonstration.</strong> Seuls sont réels : les artistes représentés, les titres, lieux et dates des expositions, la liste des foires et le nombre d’abonnés Instagram (29 000, relevé public du 16 novembre 2026). Audiences, publications, envois, visites, demandes, rendez-vous, ventes, montants, retombées presse, contacts en foire et objectifs sont inventés pour la démonstration et ne reflètent aucune donnée de la galerie.</p>
+    <p class="small">Chaque demande, rendez-vous et vente est rattaché au premier canal par lequel la personne est arrivée. Personnes touchées : comptes atteints sur Instagram, lettres ouvertes, visiteurs du site, visiteurs de la visite en ligne, audience des articles, visiteurs du stand en foire.</p>
+  </div>
+</footer>
+
+<script src="assets/chart.umd.min.js?v=4"></script>
+<script src="assets/app.js?v=20261117a"></script>
+</body>
+</html>
