@@ -126,7 +126,7 @@ function renderFunnel(R,c,p){
   var st=[
     ['Personnes touchées','Instagram, lettre, site, visite en ligne, presse, foires',c.t,p.t],
     ['Visites','Galerie, showroom à Paris, visite en ligne, stand',c.v,p.v],
-    ['Demandes de dossier','Dossier d’œuvres demandé',c.d,p.d],
+    ['Demandes','Dossier d’œuvres demandé',c.d,p.d],
     ['Rendez-vous','Visite privée ou appel',c.r,p.r],
     ['Options','Œuvre réservée',c.o,p.o],
     ['Ventes',eur(c.ca),c.s,p.s]];
@@ -303,6 +303,6 @@ function bind(){
   $('arrete').textContent=D.arrete;
 }
 Chart.defaults.font.family='Inter';
-fetch('data/donnees.json?v=20261117b').then(function(r){return r.json()}).then(function(j){D=j;NW=D.semaines.length;bind();render()})
+fetch('data/donnees.json?v=20261117c').then(function(r){return r.json()}).then(function(j){D=j;NW=D.semaines.length;bind();render()})
  .catch(function(e){$('phrase').textContent='Les données n’ont pas pu être chargées. Recharger la page.';console.error(e)});
 })();
