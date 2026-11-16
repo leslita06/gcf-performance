@@ -143,7 +143,7 @@ function renderCanaux(R){
   var tot=agg(rows);
   CANAUX.forEach(function(k){var x=agg(rows.filter(function(r){return r[1]===k})),y=agg(prs.filter(function(r){return r[1]===k}));
     if(!x.t&&!x.d)return;
-    h+='<tr class="'+(S.can!=='all'&&S.can!==k?'dim':'')+(S.can===k?' hl':'')+'"><td class="t">'+CNOM[k]+'</td><td>'+compact(x.t)+'</td><td>'+nf(x.v)+'</td><td>'+nf(x.d)+'</td><td>'+nf(x.r)+'</td><td>'+nf(x.o)+'</td><td>'+nf(x.s)+'</td><td>'+eur(x.ca)+'</td><td>'+eur(div(x.ca,x.t)*1000)+'</td><td>'+(dl(x.ca,y.ca)||'·')+'</td></tr>'});
+    h+='<tr class="'+(S.can!=='all'&&S.can!==k?'dim':'')+(S.can===k?' hl':'')+'"><td class="t">'+CNOM[k]+'</td><td>'+compact(x.t)+'</td><td>'+nf(x.v)+'</td><td>'+nf(x.d)+'</td><td>'+nf(x.r)+'</td><td>'+nf(x.o)+'</td><td>'+nf(x.s)+'</td><td>'+eur(x.ca)+'</td><td>'+eur(div(x.ca,x.t)*1000)+'</td><td>'+(!x.ca&&y.ca?'<span class="mute">aucune vente attribuée</span>':(dl(x.ca,y.ca)||'·'))+'</td></tr>'});
   h+='<tr class="tot"><td>Total</td><td>'+compact(tot.t)+'</td><td>'+nf(tot.v)+'</td><td>'+nf(tot.d)+'</td><td>'+nf(tot.r)+'</td><td>'+nf(tot.o)+'</td><td>'+nf(tot.s)+'</td><td>'+eur(tot.ca)+'</td><td>'+eur(div(tot.ca,tot.t)*1000)+'</td><td></td></tr>';
   $('t-canaux').innerHTML=h+'</tbody>';
 }
@@ -172,7 +172,7 @@ function renderIG(R){
   var g=sum(ab,function(x){return x[2]}), gp=sum(abp,function(x){return x[2]});
   var por=div(sum(ps,function(x){return x[7]}),ps.length), porp=div(sum(pp,function(x){return x[7]}),pp.length);
   var en=div(sum(ps,function(x){return x[8]}),sum(ps,function(x){return x[7]})), enp=div(sum(pp,function(x){return x[8]}),sum(pp,function(x){return x[7]}));
-  $('ig-ab').textContent=nf(29000);$('ig-rel').textContent=D.releve_ig;
+  $('ig-ab').textContent=nf(D.insta[D.insta.length-1][1]);$('ig-rel').textContent=D.releve_ig;
   $('ig-mini').innerHTML='<div><p class="v">+'+nf(g)+'</p><p class="l">nouveaux abonnés '+R.lab+' · '+dl(g,gp)+'</p></div>'+
     '<div><p class="v">'+compact(por)+'</p><p class="l">comptes touchés par publication · '+dl(por,porp)+'</p></div>'+
     '<div><p class="v">'+pct(en)+'</p><p class="l">engagement par publication · '+dpt(en,enp)+'</p></div>';
@@ -303,6 +303,6 @@ function bind(){
   $('arrete').textContent=D.arrete;
 }
 Chart.defaults.font.family='Inter';
-fetch('data/donnees.json?v=20261117c').then(function(r){return r.json()}).then(function(j){D=j;NW=D.semaines.length;bind();render()})
+fetch('data/donnees.json?v=20261117d').then(function(r){return r.json()}).then(function(j){D=j;NW=D.semaines.length;bind();render()})
  .catch(function(e){$('phrase').textContent='Les données n’ont pas pu être chargées. Recharger la page.';console.error(e)});
 })();
