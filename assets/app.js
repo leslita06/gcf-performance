@@ -7,6 +7,12 @@ var CNOM={'Instagram':'Instagram','Lettre':'Lettre d’information','Site':'Site
 var SEGS=['Collectionneurs','Institutions','Presse','Grand public'];
 var MOIS=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
 var charts={};
+var CC={'Instagram':'#C026D3','Lettre':'#2563EB','Site':'#0D9488','Visite en ligne':'#7C3AED','Presse':'#EA580C','Foires':'#CA8A04'};
+var CI={'Instagram':'instagram','Lettre':'mail','Site':'globe','Visite en ligne':'monitor-play','Presse':'newspaper','Foires':'tent'};
+var CT={'Instagram':'#FDF4FF','Lettre':'#EFF6FF','Site':'#F0FDFA','Visite en ligne':'#F5F3FF','Presse':'#FFF7ED','Foires':'#FEFCE8'};
+function ic(n,st){return '<i class="ic" style="-webkit-mask-image:url(assets/icons/'+n+'.svg);mask-image:url(assets/icons/'+n+'.svg)'+(st?';'+st:'')+'"></i>'}
+function hydrate(){Array.prototype.forEach.call(document.querySelectorAll('[data-ic]'),function(e){var u='url(assets/icons/'+e.dataset.ic+'.svg)';e.style.webkitMaskImage=u;e.style.maskImage=u})}
+function cbx(k){return '<span class="cbx" style="background:'+CT[k]+';color:'+CC[k]+'">'+ic(CI[k])+'</span>'}
 var NOMF={'Instagram':'Instagram','Lettre':'La lettre d’information','Site':'Le site','Visite en ligne':'La visite en ligne','Presse':'La presse','Foires':'Les foires'};
 function $(id){return document.getElementById(id)}
 function nf(x,d){return (+x).toLocaleString('fr-FR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0}).replace(/\u202f/g,'\u00a0')}
@@ -60,12 +66,12 @@ function render(){
   }
   $('phrase').innerHTML=ph;
   var K=[
-    {l:'Personnes touchées',v:big(compact(c.t)),d:dl(c.t,p.t)+' '+R.cmp},
-    {l:'Demandes de dossier',v:nf(c.d),d:dl(c.d,p.d)+' '+R.cmp},
-    {l:'Rendez-vous',v:nf(c.r),d:dl(c.r,p.r)+' '+R.cmp},
-    {l:'Œuvres vendues',v:nf(c.s),d:dl(c.s,p.s)+' '+R.cmp},
-    {l:'Ventes issues de la communication',v:big(eur(c.ca)),d:dl(c.ca,p.ca)+' '+R.cmp}];
-  $('kpis').innerHTML=K.map(function(x){return '<div class="kpi"><p class="l">'+x.l+'</p><p class="v">'+x.v+'</p><p class="d">'+x.d+'</p></div>'}).join('');
+    {i:'users',l:'Personnes touchées',v:big(compact(c.t)),d:dl(c.t,p.t)+' '+R.cmp},
+    {i:'file-text',l:'Demandes de dossier',v:nf(c.d),d:dl(c.d,p.d)+' '+R.cmp},
+    {i:'calendar-check',l:'Rendez-vous',v:nf(c.r),d:dl(c.r,p.r)+' '+R.cmp},
+    {i:'frame',l:'Œuvres vendues',v:nf(c.s),d:dl(c.s,p.s)+' '+R.cmp},
+    {i:'banknote',l:'Ventes issues de la communication',v:big(eur(c.ca)),d:dl(c.ca,p.ca)+' '+R.cmp}];
+  $('kpis').innerHTML=K.map(function(x){return '<div class="kpi"><div class="h"><span class="bx">'+ic(x.i)+'</span><p class="l">'+x.l+'</p></div><p class="v">'+x.v+'</p><p class="d">'+x.d+'</p></div>'}).join('');
   renderObj(R);renderFunnel(R,c,p);renderCanaux(R);renderFunChart(R);
   renderIG(R);renderNL(R);renderWeb(R);renderPresse(R);renderExpos();
   var vis={Instagram:['Instagram'],Lettre:['Lettre'],Site:['Site','Visite en ligne'],Presse:['Presse','Foires']};
@@ -87,18 +93,18 @@ function gallery(a,b){
 function renderObj(R){
   var g=gallery(R.a,R.b), q=gallery(R.pa,R.pb), O=D.objectifs;
   var G=[
-    {l:'Personnes touchées / sem.',v:(g.t>=1e4&&g.t<1e5?nf(g.t/1e3,0)+'\u00a0k':compact(g.t)),x:g.t,o:O.touches,ov:compact(O.touches),p:q.t},
-    {l:'Demandes de dossier / sem.',v:nf(g.d,1),x:g.d,o:O.demandes,ov:nf(O.demandes),p:q.d},
-    {l:'Rendez-vous / sem.',v:nf(g.r,1),x:g.r,o:O.rdv,ov:nf(O.rdv,0),p:q.r},
-    {l:'Œuvres vendues / sem.',v:nf(g.s,1),x:g.s,o:O.ventes,ov:nf(O.ventes,1),p:q.s},
-    {l:'Ventes / sem.',v:eur(g.ca),x:g.ca,o:O.ca,ov:eur(O.ca),p:q.ca},
-    {l:'Ouverture lettre grand public',v:pct(g.gp),x:g.gp,o:O.ouverture_gp,ov:pct(O.ouverture_gp,0),p:q.gp,pt:1},
-    {l:'Engagement Instagram',v:pct(g.eng),x:g.eng,o:O.engagement,ov:pct(O.engagement),p:q.eng,pt:1},
-    {l:'Nouveaux abonnés / sem.',v:nf(g.ab),x:g.ab,o:O.abonnes_sem,ov:nf(O.abonnes_sem),p:q.ab}];
+    {i:'users',l:'Personnes touchées / sem.',v:(g.t>=1e4&&g.t<1e5?nf(g.t/1e3,0)+'\u00a0k':compact(g.t)),x:g.t,o:O.touches,ov:compact(O.touches),p:q.t},
+    {i:'file-text',l:'Demandes de dossier / sem.',v:nf(g.d,1),x:g.d,o:O.demandes,ov:nf(O.demandes),p:q.d},
+    {i:'calendar-check',l:'Rendez-vous / sem.',v:nf(g.r,1),x:g.r,o:O.rdv,ov:nf(O.rdv,0),p:q.r},
+    {i:'frame',l:'Œuvres vendues / sem.',v:nf(g.s,1),x:g.s,o:O.ventes,ov:nf(O.ventes,1),p:q.s},
+    {i:'banknote',l:'Ventes / sem.',v:eur(g.ca),x:g.ca,o:O.ca,ov:eur(O.ca),p:q.ca},
+    {i:'mail',l:'Ouverture lettre grand public',v:pct(g.gp),x:g.gp,o:O.ouverture_gp,ov:pct(O.ouverture_gp,0),p:q.gp,pt:1},
+    {i:'instagram',l:'Engagement Instagram',v:pct(g.eng),x:g.eng,o:O.engagement,ov:pct(O.engagement),p:q.eng,pt:1},
+    {i:'user-plus',l:'Nouveaux abonnés / sem.',v:nf(g.ab),x:g.ab,o:O.abonnes_sem,ov:nf(O.abonnes_sem),p:q.ab}];
   G.forEach(function(x){x.r=div(x.x,x.o);x.k=x.r>=.95?'ok':x.r>=.85?'warn':'bad'});
   $('gauges').innerHTML=G.map(function(x){
     var w=Math.min(x.r/1.3,1)*100, m=1/1.3*100;
-    return '<div class="g '+x.k+'"><p class="l"><span>'+x.l+'</span><span class="st"><i></i>'+(x.k==='ok'?'Atteint':x.k==='warn'?'À surveiller':'Décroche')+'</span></p>'+
+    return '<div class="g '+x.k+'"><p class="l"><span>'+ic(x.i)+x.l+'</span><span class="st"><i></i>'+(x.k==='ok'?'Atteint':x.k==='warn'?'À surveiller':'Décroche')+'</span></p>'+
       '<p class="v">'+big(x.v)+'</p><div class="bar"><span style="width:'+w+'%"></span><b style="left:'+m+'%"></b></div>'+
       '<p class="tr">'+nf(x.r*100,0)+'\u00a0% de l’objectif ('+x.ov+') · '+(x.pt?dpt(x.x,x.p):dl(x.x,x.p))+' '+R.cmp.replace('vs ','vs ')+'</p></div>'}).join('');
   // alertes
@@ -118,11 +124,12 @@ function renderObj(R){
   // point fort
   var bc=CANAUX.filter(function(k){return k!=='Foires'}).map(function(k){var x=agg(D.fun.filter(function(r){return r[0]>=R.a&&r[0]<=R.b&&r[1]===k}));return {k:k,v:div(x.ca,x.t)*1000,ca:x.ca,t:x.t}}).filter(function(x){return x.ca>0&&x.t>=10000}).sort(function(x,y){return y.v-x.v})[0];
   if(bc) A.push({k:'ok',t:'Point fort : '+NOMF[bc.k].replace(/^L/,'l')+' '+(bc.k==='Foires'?'rapportent':'rapporte')+' <b>'+eur(bc.v)+'</b> de ventes pour 1\u00a0000 personnes touchées.',r:bc.k==='Lettre'?'Garder un envoi tous les quinze jours au segment collectionneurs, c’est lui qui fait les ventes.':'Renforcer ce canal à la prochaine exposition.'});
-  $('alerts').innerHTML='<h3>Ce qu’il faut regarder cette semaine</h3>'+A.map(function(x){return '<div class="al '+x.k+'"><i></i><p>'+x.t+'<span>'+x.r+'</span></p></div>'}).join('');
+  $('alerts').innerHTML=A.map(function(x){return '<div class="al '+x.k+'"><span class="bx">'+ic(x.k==='ok'?'circle-check':'triangle-alert')+'</span><p>'+x.t+'<span>'+x.r+'</span></p></div>'}).join('');
 }
 
 /* ---------- 02 entonnoir ---------- */
 function renderFunnel(R,c,p){
+  var SI=['users','door-open','file-text','calendar-check','bookmark','banknote'];
   var st=[
     ['Personnes touchées','Instagram, lettre, site, visite en ligne, presse, foires',c.t,p.t],
     ['Visites','Galerie, showroom à Paris, visite en ligne, stand',c.v,p.v],
@@ -134,7 +141,7 @@ function renderFunnel(R,c,p){
   $('funnel').innerHTML=st.map(function(s,i){
     var w=s[2]>0?Math.max(Math.log10(s[2])/mx*100,3):0, rate=i?div(s[2],st[i-1][2]):null, prate=i?div(s[3],st[i-1][3]):null;
     var vs=i===1?'<p class="dl">dont '+nf(c.vg)+' en galerie, '+nf(c.vp)+' à Paris, '+nf(c.vl)+' en ligne, '+nf(c.vs)+' en foire</p>':'';
-    return '<div class="st6"><p class="n">'+s[0]+'</p><p class="s">'+s[1]+'</p><p class="v">'+(i?nf(s[2]):big(compact(s[2])))+'</p><div class="bar"><span style="width:'+w+'%"></span></div>'+
+    return '<div class="st6"><div class="hd"><span class="bx">'+ic(SI[i])+'</span><p class="n">'+s[0]+'</p></div><p class="s">'+s[1]+'</p><p class="v">'+(i?nf(s[2]):big(compact(s[2])))+'</p><div class="bar"><span style="width:'+w+'%"></span></div>'+
       (i?'<p class="r">'+pct(rate,rate<.01?2:rate<.1?1:0)+' <em>de l’étape précédente</em></p><p class="dl">'+(prate?dpt(rate,prate)+' '+R.cmp:'')+'</p>':'<p class="r">'+dl(s[2],s[3])+' <em>'+R.cmp+'</em></p>')+vs+'</div>'}).join('');
 }
 function renderCanaux(R){
@@ -143,16 +150,16 @@ function renderCanaux(R){
   var tot=agg(rows);
   CANAUX.forEach(function(k){var x=agg(rows.filter(function(r){return r[1]===k})),y=agg(prs.filter(function(r){return r[1]===k}));
     if(!x.t&&!x.d)return;
-    h+='<tr class="'+(S.can!=='all'&&S.can!==k?'dim':'')+(S.can===k?' hl':'')+'"><td class="t">'+CNOM[k]+'</td><td>'+compact(x.t)+'</td><td>'+nf(x.v)+'</td><td>'+nf(x.d)+'</td><td>'+nf(x.r)+'</td><td>'+nf(x.o)+'</td><td>'+nf(x.s)+'</td><td>'+eur(x.ca)+'</td><td>'+eur(div(x.ca,x.t)*1000)+'</td><td>'+(!x.ca&&y.ca?'<span class="mute">aucune vente attribuée</span>':(dl(x.ca,y.ca)||'·'))+'</td></tr>'});
+    h+='<tr class="'+(S.can!=='all'&&S.can!==k?'dim':'')+(S.can===k?' hl':'')+'"><td class="t"><span class="cn">'+cbx(k)+CNOM[k]+'</span></td><td>'+compact(x.t)+'</td><td>'+nf(x.v)+'</td><td>'+nf(x.d)+'</td><td>'+nf(x.r)+'</td><td>'+nf(x.o)+'</td><td>'+nf(x.s)+'</td><td>'+eur(x.ca)+'</td><td>'+eur(div(x.ca,x.t)*1000)+'</td><td>'+(!x.ca&&y.ca?'<span class="mute">aucune vente attribuée</span>':(dl(x.ca,y.ca)||'·'))+'</td></tr>'});
   h+='<tr class="tot"><td>Total</td><td>'+compact(tot.t)+'</td><td>'+nf(tot.v)+'</td><td>'+nf(tot.d)+'</td><td>'+nf(tot.r)+'</td><td>'+nf(tot.o)+'</td><td>'+nf(tot.s)+'</td><td>'+eur(tot.ca)+'</td><td>'+eur(div(tot.ca,tot.t)*1000)+'</td><td></td></tr>';
   $('t-canaux').innerHTML=h+'</tbody>';
 }
-var AX={color:'#8A8780',font:{family:'Inter',size:11}};
+var AX={color:'#64748B',font:{family:'Inter',size:11}};
 function baseOpts(yfmt,legend){return {responsive:true,maintainAspectRatio:false,animation:{duration:300},interaction:{mode:'index',intersect:false},
-  plugins:{legend:legend?{position:'bottom',align:'start',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',color:'#4A4945',font:{family:'Inter',size:12},padding:16}}:{display:false},
-    tooltip:{backgroundColor:'#111',titleFont:{family:'Inter',size:12},bodyFont:{family:'Inter',size:12},padding:10,cornerRadius:0}},
-  scales:{x:{grid:{display:false},border:{color:'#111'},ticks:{color:AX.color,font:{family:'Inter',size:innerWidth<480?10:11},maxRotation:0,autoSkip:true,autoSkipPadding:innerWidth<480?6:10}},
-    y:{grid:{color:'#ECE9E2'},border:{display:false},beginAtZero:true,ticks:{color:AX.color,font:AX.font,maxTicksLimit:5,callback:yfmt||function(v){return nf(v)}}}}}}
+  plugins:{legend:legend?{position:'bottom',align:'start',labels:{boxWidth:9,boxHeight:9,usePointStyle:true,pointStyle:'circle',color:'#475569',font:{family:'Inter',size:12},padding:16}}:{display:false},
+    tooltip:{backgroundColor:'#0F172A',titleFont:{family:'Inter',size:12},bodyFont:{family:'Inter',size:12},padding:10,cornerRadius:8}},
+  scales:{x:{grid:{display:false},border:{color:'#E2E8F0'},ticks:{color:AX.color,font:{family:'Inter',size:innerWidth<480?10:11},maxRotation:0,autoSkip:true,autoSkipPadding:innerWidth<480?6:10}},
+    y:{grid:{color:'#F1F5F9'},border:{display:false},beginAtZero:true,ticks:{color:AX.color,font:AX.font,maxTicksLimit:5,callback:yfmt||function(v){return nf(v)}}}}}}
 function chart(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart($(id),cfg)}
 function weeksFor(R){var a=Math.min(R.a,NW-12);var o=[];for(var i=a;i<=R.b;i++)o.push(i);return o}
 function renderFunChart(R){
@@ -160,8 +167,8 @@ function renderFunChart(R){
   var dm=ws.map(function(w){return sum(rows,function(r){return r[0]===w?r[9]:0})}), vn=ws.map(function(w){return sum(rows,function(r){return r[0]===w?r[12]:0})});
   var o=baseOpts(null,true);o.scales.y2={position:'right',grid:{display:false},border:{display:false},beginAtZero:true,ticks:{color:AX.color,font:AX.font,maxTicksLimit:5,precision:0}};
   chart('c-fun',{data:{labels:ws.map(wlab),datasets:[
-    {type:'bar',label:'Demandes de dossier',data:dm,backgroundColor:'#C9BFAE',borderWidth:0,maxBarThickness:22,yAxisID:'y'},
-    {type:'line',label:'Œuvres vendues (échelle de droite)',data:vn,borderColor:'#111',backgroundColor:'#111',borderWidth:1.6,pointRadius:2,tension:.25,yAxisID:'y2'}]},options:o});
+    {type:'bar',label:'Demandes de dossier',data:dm,backgroundColor:'#BFDBFE',borderRadius:3,borderWidth:0,maxBarThickness:22,yAxisID:'y'},
+    {type:'line',label:'Œuvres vendues (échelle de droite)',data:vn,borderColor:'#1E3A8A',backgroundColor:'#1E3A8A',borderWidth:2.2,pointRadius:3,tension:.25,cubicInterpolationMode:'monotone',yAxisID:'y2'}]},options:o});
 }
 
 /* ---------- 03 Instagram ---------- */
@@ -178,12 +185,12 @@ function renderIG(R){
     '<div><p class="v">'+pct(en)+'</p><p class="l">engagement par publication · '+dpt(en,enp)+'</p></div>';
   var ws=weeksFor(R);
   var o=baseOpts();o.plugins.tooltip.callbacks={label:function(x){return ' +'+nf(x.raw)+' abonnés'}};
-  chart('c-ig',{type:'bar',data:{labels:ws.map(wlab),datasets:[{data:ws.map(function(w){return D.insta[w][2]}),backgroundColor:ws.map(function(w){return w>=R.a?'#111':'#C9BFAE'}),borderWidth:0,maxBarThickness:20}]},options:o});
+  chart('c-ig',{type:'bar',data:{labels:ws.map(wlab),datasets:[{data:ws.map(function(w){return D.insta[w][2]}),backgroundColor:ws.map(function(w){return w>=R.a?'#C026D3':'#F5D0FE'}),borderRadius:3,borderWidth:0,maxBarThickness:20}]},options:o});
   // formats
   var F=['Reel','Carrousel','Image'].map(function(t){var x=ps.filter(function(p){return p[3]===t});
     return {t:t,n:x.length,por:div(sum(x,function(p){return p[7]}),x.length),en:div(sum(x,function(p){return p[8]}),sum(x,function(p){return p[7]})),sv:div(sum(x,function(p){return p[10]}),x.length)}});
   var bestE=F.slice().sort(function(a,b){return b.en-a.en})[0];
-  $('formats').innerHTML=F.map(function(f){return '<div class="fm"><p class="n">'+(f.t==='Reel'?'Reels':f.t==='Image'?'Images':'Carrousels')+(f===bestE&&f.n?'<span class="best">Le plus engageant</span>':'')+'</p>'+
+  $('formats').innerHTML=F.map(function(f){return '<div class="fm'+(f===bestE&&f.n?' top':'')+'"><p class="n">'+ic(f.t==='Reel'?'image-play':f.t==='Image'?'image':'images')+(f.t==='Reel'?'Reels':f.t==='Image'?'Images':'Carrousels')+(f===bestE&&f.n?'<span class="best">Le plus engageant</span>':'')+'</p>'+
     '<p class="row"><span>Publications</span><b>'+nf(f.n)+'</b></p><p class="row"><span>Comptes touchés en moyenne</span><b>'+(f.n?compact(f.por):'·')+'</b></p>'+
     '<p class="row"><span>Engagement</span><b>'+(f.n?pct(f.en):'·')+'</b></p><p class="row"><span>Enregistrements en moyenne</span><b>'+(f.n?nf(f.sv):'·')+'</b></p></div>'}).join('');
   var top=ps.slice().sort(function(a,b){return b[7]-a[7]}).slice(0,6), mx=top.length?top[0][7]:1;
@@ -210,10 +217,10 @@ function renderNL(R){
   }
   $('t-nl').innerHTML=h+'</tbody>';
   var a=Math.min(R.a,NW-26), all=nlF(a,R.b), ids=[];all.forEach(function(l){if(ids.indexOf(l[0])<0)ids.push(l[0])});
-  var col={'Collectionneurs':'#111111','Institutions':'#8C6D46','Presse':'#9A9890','Grand public':'#A33A2B'};
+  var col={'Collectionneurs':'#1E3A8A','Institutions':'#0D9488','Presse':'#EA580C','Grand public':'#DC2626'};
   var o=baseOpts(function(v){return nf(v*100,0)+' %'},true);o.plugins.tooltip.callbacks={label:function(x){return ' '+x.dataset.label+' : '+pct(x.raw)}};
   chart('c-nl',{type:'line',data:{labels:ids.map(function(id){var l=all.filter(function(x){return x[0]===id})[0];return dfr(l[1])}),
-    datasets:SEGS.map(function(s){return {label:s,borderColor:col[s],backgroundColor:col[s],borderWidth:1.6,pointRadius:2,tension:.25,
+    datasets:SEGS.map(function(s){return {label:s,borderColor:col[s],backgroundColor:col[s],borderWidth:2.2,pointRadius:3,tension:.25,cubicInterpolationMode:'monotone',
       data:ids.map(function(id){var l=all.filter(function(x){return x[0]===id&&x[3]===s})[0];return l?div(l[8],l[7]):null})}})},options:o});
 }
 
@@ -225,15 +232,16 @@ function renderWeb(R){
   var c=k(W),p=k(P);
   var M=[[compact(c.v),'visiteurs du site · '+dl(c.v,p.v)],[compact(c.p),'pages vues · '+nf(div(c.p,c.v),1)+' par visite'],[nf(c.c),'clics « Demander le dossier » · '+dl(c.c,p.c)],
          [nf(c.vl),'visiteurs de la visite en ligne · '+dl(c.vl,p.vl)],[pct(div(c.vc,c.vl),0),'vont au bout de la visite en ligne']];
-  $('web-k').innerHTML=M.map(function(m){return '<div class="mi"><p class="v">'+m[0]+'</p><p class="l">'+m[1]+'</p></div>'}).join('');
+  var WI=['globe','eye','mouse-pointer-click','monitor-play','circle-check'];M.forEach(function(m,i){m[2]=WI[i]});
+  $('web-k').innerHTML=M.map(function(m){return '<div class="mi"><span class="mic">'+ic(m[2])+'</span><p class="v">'+m[0]+'</p><p class="l">'+m[1]+'</p></div>'}).join('');
   var by={};W.forEach(function(x){var o=by[x[1]]=by[x[1]]||{v:0,c:0};o.v+=x[4];o.c+=x[6]});
   var ks=Object.keys(by).sort(function(a,b){return (a==='Autres pays')-(b==='Autres pays')||by[b].v-by[a].v}), mx=Math.max.apply(null,ks.map(function(x){return by[x].v}).concat([1]));
-  $('pays').innerHTML=ks.length?ks.map(function(x){return '<div class="p"><span class="n">'+x+'</span><span class="m">'+compact(by[x].v)+'<small>'+pct(div(by[x].v,c.v),0)+' · '+nf(by[x].c)+' demandes</small></span><span class="bar"><span style="width:'+(by[x].v/mx*100)+'%"></span></span></div>'}).join(''):'<p class="empty">Aucune visite sur cette sélection.</p>';
+  $('pays').innerHTML=ks.length?ks.map(function(x){return '<div class="p"><span class="n">'+ic('map-pin')+x+'</span><span class="m">'+compact(by[x].v)+'<small>'+pct(div(by[x].v,c.v),0)+' · '+nf(by[x].c)+' demandes</small></span><span class="bar"><span style="width:'+(by[x].v/mx*100)+'%"></span></span></div>'}).join(''):'<p class="empty">Aucune visite sur cette sélection.</p>';
   var ws=weeksFor(R), all=webF(ws[0],R.b);
   var o=baseOpts(function(v){return compact(v)},true);
   chart('c-web',{type:'bar',data:{labels:ws.map(wlab),datasets:[
-    {label:'Visiteurs du site',data:ws.map(function(w){return sum(all,function(x){return x[0]===w?x[4]:0})}),backgroundColor:'#111',borderWidth:0,maxBarThickness:20},
-    {label:'Visite en ligne',data:ws.map(function(w){return sum(all,function(x){return x[0]===w?x[7]:0})}),backgroundColor:'#C9BFAE',borderWidth:0,maxBarThickness:20}]},options:o});
+    {label:'Visiteurs du site',data:ws.map(function(w){return sum(all,function(x){return x[0]===w?x[4]:0})}),backgroundColor:CC['Site'],borderRadius:3,borderWidth:0,maxBarThickness:20},
+    {label:'Visite en ligne',data:ws.map(function(w){return sum(all,function(x){return x[0]===w?x[7]:0})}),backgroundColor:CC['Visite en ligne'],borderRadius:3,borderWidth:0,maxBarThickness:20}]},options:o});
 }
 
 /* ---------- 06 presse et foires ---------- */
@@ -244,7 +252,8 @@ function renderPresse(R){
   var intl=A.filter(function(x){return x[4]!=='Côte d’Ivoire'&&x[4]!=='Sénégal'}).length;
   var M=[[nf(A.length),'retombées presse · '+dl(A.length,P.length)],[compact(sum(A,function(x){return x[8]})),'audience cumulée'],[nf(sum(A,function(x){return x[9]})),'demandes de dossier générées'],
          [nf(intl),'dans la presse hors Côte d’Ivoire et Sénégal'],[nf(sum(fo,function(f){return f.contacts})),'contacts pris en foire']];
-  $('pr-k').innerHTML=M.map(function(m){return '<div class="mi"><p class="v">'+m[0]+'</p><p class="l">'+m[1]+'</p></div>'}).join('');
+  var PI=['newspaper','radio','file-text','globe','tent'];M.forEach(function(m,i){m[2]=PI[i]});
+  $('pr-k').innerHTML=M.map(function(m){return '<div class="mi"><span class="mic">'+ic(m[2])+'</span><p class="v">'+m[0]+'</p><p class="l">'+m[1]+'</p></div>'}).join('');
   var top=A.slice().sort(function(a,b){return b[1]<a[1]?-1:1}).slice(0,8);
   var h='<thead><tr><th>Retombée</th><th>Type</th><th>Audience</th><th>Demandes</th></tr></thead><tbody>';
   if(!top.length)h+='<tr><td colspan="4" class="empty">Aucune retombée sur cette sélection.</td></tr>';
@@ -277,7 +286,7 @@ function renderExpos(){
     var s=expoStats(now,2), comp=past.map(function(e){return expoStats(e,2)});
     var avg=function(f){return div(sum(comp,f),comp.length)};
     var aD=avg(function(x){return x.f.d}), aT=avg(function(x){return x.f.t}), aR=avg(function(x){return x.f.r});
-    $('expo-now').innerHTML='<div><p class="big">'+nf(s.f.d)+'</p></div><div><p class="t">« '+esc(now.titre)+' »<span class="pill">En cours</span></p><p class="s">'+esc(now.sous)+' · '+now.lieu+' · depuis le '+dfr(now.debut)+', jusqu’au '+dfr(now.fin,1)+
+    $('expo-now').innerHTML='<span class="bx">'+ic('door-open','width:24px;height:24px')+'</span><div class="k"><p class="big">'+nf(s.f.d)+'</p><p class="bl">demandes de dossier</p></div><div><p class="t">« '+esc(now.titre)+' »<span class="pill">En cours</span></p><p class="s">'+esc(now.sous)+' · '+now.lieu+' · depuis le '+dfr(now.debut)+', jusqu’au '+dfr(now.fin,1)+
       '<br>demandes de dossier sur les deux premières semaines, contre <b>'+nf(aD,0)+'</b> en moyenne pour les '+past.length+' expositions précédentes au même stade ('+dl(s.f.d,aD)+'). '+
       compact(s.f.t)+' personnes touchées ('+dl(s.f.t,aT)+'), '+nf(s.f.r)+' rendez-vous ('+dl(s.f.r,aR)+'), '+nf(s.pr)+' retombées presse.</p></div>';
   }
@@ -301,8 +310,9 @@ function bind(){
   $('f-art').onchange=function(){S.art=this.value;render()};
   $('raz').onclick=function(){S={per:'12',can:'all',exp:'all',art:'all'};$('f-per').value='12';$('f-can').value='all';$('f-exp').value='all';$('f-art').value='all';render()};
   $('arrete').textContent=D.arrete;
+  hydrate();
 }
 Chart.defaults.font.family='Inter';
-fetch('data/donnees.json?v=20261117d').then(function(r){return r.json()}).then(function(j){D=j;NW=D.semaines.length;bind();render()})
+fetch('data/donnees.json?v=20261117w').then(function(r){return r.json()}).then(function(j){D=j;NW=D.semaines.length;bind();render()})
  .catch(function(e){$('phrase').textContent='Les données n’ont pas pu être chargées. Recharger la page.';console.error(e)});
 })();

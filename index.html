@@ -6,18 +6,17 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Galerie Cécile Fakhoury · Performance</title>
 <link rel="icon" href="data:,">
-<link rel="preload" href="assets/Cormorant.ttf" as="font" type="font/ttf" crossorigin>
 <link rel="preload" href="assets/Inter.ttf" as="font" type="font/ttf" crossorigin>
-<link rel="stylesheet" href="assets/style.css?v=20261117d">
+<link rel="stylesheet" href="assets/style.css?v=20261117w">
 </head>
 <body>
-<div class="demo"><div class="wrap">Données de démonstration, à l’exception des artistes, des expositions et de l’audience Instagram</div></div>
+<div class="demo"><div class="wrap"><i class="ic" data-ic="info"></i><span>Données de démonstration, à l’exception des artistes, des expositions et de l’audience Instagram</span></div></div>
 <header class="masthead">
   <div class="wrap mh">
     <img src="assets/logo.png" alt="Cécile Fakhoury" class="logo">
     <div class="mh-right">
       <p class="eyebrow">Performance de la communication</p>
-      <p class="arrete">Semaine arrêtée au <span id="arrete"></span></p>
+      <p class="arrete"><i class="ic" data-ic="calendar-days"></i>Semaine arrêtée au <span id="arrete"></span></p>
     </div>
   </div>
 </header>
@@ -44,7 +43,7 @@
     <label>Artiste
       <select id="f-art"><option value="all">Tous les artistes</option></select>
     </label>
-    <button id="raz" class="raz">Réinitialiser</button>
+    <button id="raz" class="raz"><i class="ic" data-ic="rotate-ccw"></i>Réinitialiser</button>
   </div>
 </div>
 
@@ -57,58 +56,59 @@
   <section class="kpis" id="kpis"></section>
 
   <section class="block" id="s-obj">
-    <div class="bh"><span class="num">01</span><h2>Objectifs et alertes</h2><p class="hint">Moyenne par semaine sur la période, comparée à l’objectif hebdomadaire.</p></div>
-    <div class="gauges" id="gauges"></div>
+    <div class="bh"><span class="bx"><i class="ic" data-ic="target"></i></span><h2>À regarder cette semaine</h2><p class="hint">Moyennes par semaine, comparées aux objectifs.</p></div>
     <div class="alerts" id="alerts"></div>
+    <p class="sub"><i class="ic" data-ic="gauge"></i>Objectifs de la semaine</p>
+    <div class="gauges" id="gauges"></div>
   </section>
 
   <section class="block" id="s-fun">
-    <div class="bh"><span class="num">02</span><h2>L’entonnoir, canal par canal</h2></div>
+    <div class="bh"><span class="bx"><i class="ic" data-ic="route"></i></span><h2>Le parcours, canal par canal</h2></div>
     <div class="funnel" id="funnel"></div>
     <div class="tbl-wrap"><table class="tbl" id="t-canaux"></table></div>
     <div class="chart-box mt"><p class="cap">Demandes de dossier et ventes, semaine par semaine</p><div class="ch"><canvas id="c-fun"></canvas></div></div>
   </section>
 
   <section class="block chan" data-chan="Instagram" id="s-ig">
-    <div class="bh"><span class="num">03</span><h2>Instagram</h2></div>
+    <div class="bh"><span class="bx"><i class="ic" data-ic="instagram"></i></span><h2>Instagram</h2></div>
     <div class="grid2">
       <div class="insta-big">
-        <p class="big" id="ig-ab"></p>
-        <p class="lbl">abonnés <span class="tag">Réel</span> relevé public du <span id="ig-rel"></span></p>
+        <div class="hd"><span class="bx"><i class="ic" data-ic="instagram"></i></span><p class="big" id="ig-ab"></p></div>
+        <p class="lbl">abonnés <span class="tag reel">Réel</span> relevé public du <span id="ig-rel"></span></p>
         <div class="ig-mini" id="ig-mini"></div>
       </div>
       <div class="chart-box"><p class="cap">Nouveaux abonnés, semaine par semaine</p><div class="ch"><canvas id="c-ig"></canvas></div></div>
     </div>
     <div class="formats" id="formats"></div>
-    <p class="sub">Meilleures publications de la période</p>
+    <p class="sub"><i class="ic" data-ic="heart"></i>Meilleures publications de la période</p>
     <div class="tbl-wrap"><table class="tbl" id="t-posts"></table></div>
   </section>
 
   <section class="block chan" data-chan="Lettre" id="s-nl">
-    <div class="bh"><span class="num">04</span><h2>Lettre d’information</h2></div>
+    <div class="bh"><span class="bx"><i class="ic" data-ic="mail"></i></span><h2>Lettre d’information</h2></div>
     <div class="tbl-wrap"><table class="tbl" id="t-nl"></table></div>
     <div class="chart-box mt"><p class="cap">Taux d’ouverture par segment, envoi par envoi</p><div class="ch"><canvas id="c-nl"></canvas></div></div>
   </section>
 
   <section class="block chan" data-chan="Site" id="s-web">
-    <div class="bh"><span class="num">05</span><h2>Site et visite en ligne</h2></div>
+    <div class="bh"><span class="bx"><i class="ic" data-ic="globe"></i></span><h2>Site et visite en ligne</h2></div>
     <div class="minis" id="web-k"></div>
     <div class="grid2 mt">
-      <div><p class="sub nomt">Visiteurs par pays</p><div class="pays" id="pays"></div></div>
+      <div><p class="sub nomt"><i class="ic" data-ic="map-pin"></i>Visiteurs par pays</p><div class="pays" id="pays"></div></div>
       <div class="chart-box"><p class="cap">Visiteurs du site, semaine par semaine</p><div class="ch"><canvas id="c-web"></canvas></div></div>
     </div>
   </section>
 
   <section class="block chan" data-chan="Presse" id="s-pr">
-    <div class="bh"><span class="num">06</span><h2>Retombées presse et foires</h2></div>
+    <div class="bh"><span class="bx"><i class="ic" data-ic="newspaper"></i></span><h2>Presse et foires</h2></div>
     <div class="minis" id="pr-k"></div>
     <div class="tbl-wrap mt"><table class="tbl" id="t-presse"></table></div>
-    <p class="sub">Foires : ce que deviennent les contacts pris sur le stand</p>
+    <p class="sub"><i class="ic" data-ic="tent"></i>Foires : ce que deviennent les contacts pris sur le stand</p>
     <div class="tbl-wrap"><table class="tbl" id="t-foires"></table></div>
   </section>
 
   <section class="block" id="s-exp">
-    <div class="bh"><span class="num">07</span><h2>Par exposition</h2><p class="hint">Toutes périodes confondues, depuis novembre 2024.</p></div>
+    <div class="bh"><span class="bx"><i class="ic" data-ic="door-open"></i></span><h2>Par exposition</h2><p class="hint">Toutes périodes confondues, depuis novembre 2024.</p></div>
     <div class="expo-now" id="expo-now"></div>
     <div class="tbl-wrap"><table class="tbl" id="t-expos"></table></div>
   </section>
@@ -122,6 +122,6 @@
 </footer>
 
 <script src="assets/chart.umd.min.js?v=4"></script>
-<script src="assets/app.js?v=20261117d"></script>
+<script src="assets/app.js?v=20261117w"></script>
 </body>
 </html>
